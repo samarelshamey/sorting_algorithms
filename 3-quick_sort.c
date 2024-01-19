@@ -5,13 +5,15 @@
  * @: second int
  * Return: nothing
 */
-void swap(int *x, int *y)
+void swap(int *array, size_t size,int *x, int *y)
 {
-	int temp;
-
-	temp = *x;
-	*x = *y;
-	*y = temp;
+	if (*x != *y)
+	{
+		*x = *x + *y;
+		*y = *x - *y;
+		*x = *x - *y;
+		print_array((const int *)array, size);
+	}
 }
 
 /**
@@ -21,26 +23,20 @@ void swap(int *x, int *y)
  * @high: high
  * Return: integer
 */
-int partitions(int *array, int low, int high, size_t size)
+size_t partitions(int *array, size_t size, ssize_t low, ssize_t high)
 {
-	int j , i = low - 1;
+	int j , i;
 	int pivot = array[high];
 
-	for (j = low; j < high - 1; j++)
+	for (i = j = low; j < high; j++)
 	{
 		if (array[j] < pivot)
 		{
-			i++;
-			swap(&array[i], &array[j]);
-			print_array(array, size);
+			swap(array, size, &array[j], &array[i++]);
 		}
 	}
-	if (array[high] < array[i + 1])
-	{
-		swap(&array[i + 1], &array[high]);
-		print_array(array, size);
-	}
-	return i + 1;
+	swap(array, size, &array[i], &array[high]);
+	return (i);
 }
 /**
  * quick_sort_recur - recursive func to sort an array
@@ -50,15 +46,15 @@ int partitions(int *array, int low, int high, size_t size)
  * @size: array size
  * Return: nothing
 */
-void quick_sort_recur(int *array, int low, int high, size_t size)
+void quick_sort_recur(int *array, size_t size, ssize_t low, ssize_t high)
 {
-	int pivot;
+	size_t pivot;
 
 	if (low < high)
 	{
-		pivot = partitions(array, low, high, size);
-		quick_sort_recur(array, low, pivot - 1, size);
-		quick_sort_recur(array, pivot + 1, high, size);
+		pivot = partitions(array, size, low, high);
+		quick_sort_recur(array, size, low, pivot - 1);
+		quick_sort_recur(array, size, pivot + 1, high);
 	}
 }
 
@@ -72,5 +68,5 @@ void quick_sort(int *array, size_t size)
 {
 	if (array == NULL || size < 2)
 		return;
-	quick_sort_recur(array, 0, size - 1, size);
+	quick_sort_recur(array, size, 0, size - 1);
 }
