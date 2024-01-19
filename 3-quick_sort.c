@@ -1,11 +1,13 @@
 #include "sort.h"
 /**
  * swap - swap two int
+ * @array: array
+ * @size: array size
  * @x: first int
- * @: second int
+ * @y: second int
  * Return: nothing
 */
-void swap(int *array, size_t size,int *x, int *y)
+void swap(int *array, size_t size, int *x, int *y)
 {
 	if (*x != *y)
 	{
@@ -19,13 +21,14 @@ void swap(int *array, size_t size,int *x, int *y)
 /**
  * partitions - divide array
  * @array: array
- * @low: low 
+ * @size: array size
+ * @low: low
  * @high: high
  * Return: integer
 */
 size_t partitions(int *array, size_t size, ssize_t low, ssize_t high)
 {
-	int j , i;
+	int j, i;
 	int pivot = array[high];
 
 	for (i = j = low; j < high; j++)
@@ -41,9 +44,9 @@ size_t partitions(int *array, size_t size, ssize_t low, ssize_t high)
 /**
  * quick_sort_recur - recursive func to sort an array
  * @array: array to be sorted
+ * @size: array size
  * @low: starting index
  * @high: ending index
- * @size: array size
  * Return: nothing
 */
 void quick_sort_recur(int *array, size_t size, ssize_t low, ssize_t high)
